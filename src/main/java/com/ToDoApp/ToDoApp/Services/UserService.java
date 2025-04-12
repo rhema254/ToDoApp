@@ -88,6 +88,7 @@ public class UserService {
         }
         return "User not found";
     }
+
     public User authenticateUser(String username, String password) {
         Optional<User> userOptional = userRepository.findByUsername(username);
 
