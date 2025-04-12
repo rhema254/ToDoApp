@@ -1,12 +1,16 @@
 package com.ToDoApp.ToDoApp.models;
 
+import com.ToDoApp.ToDoApp.Enums.Priority;
+import com.ToDoApp.ToDoApp.Enums.Status;
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
+
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
-public class Tasks {
+@Table(name ="task")
+public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +36,17 @@ public class Tasks {
 
     private String attachmentUrl; // S3 URL for image/pdf
 
-    private String attachment;
-    // getters and setters
+    private String attachment; // Convert the imgs/pdfs into base64
+
+    private LocalDate updated_at;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime created_at;
+
+    @PrePersist
+    protected void onCreate() {
+        this.created_at = LocalDateTime.now();
+    }
+
 }
 
