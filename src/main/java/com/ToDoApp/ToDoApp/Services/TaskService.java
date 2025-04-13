@@ -99,5 +99,29 @@ public class TaskService {
         // Save and return the updated task
         return taskRepository.save(existingTask);
     }
+
+    // Delete a task
+    public void deleteTask(Long taskId) {
+        if (!taskRepository.existsById(taskId)) {
+            throw new RuntimeException("Task not found with id: " + taskId);
+        }
+
+        taskRepository.deleteById(taskId);
+    }
+
+    // Archive a task
+    public Task archiveTask(Long taskId) {
+        Optional<Task> taskOptional = taskRepository.findById(taskId);
+
+        if (!taskOptional.isPresent()) {
+            throw new RuntimeException("Task not found with id: " + taskId);
+        }
+
+        Task task = taskOptional.get();
+        task.setStatus(Status.ARCHIVED);
+        task.setUpdated_at(LocalDateTime.now());
+
+        return taskRepository.save(task);
+    }
 }
 

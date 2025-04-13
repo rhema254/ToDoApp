@@ -70,13 +70,24 @@ public class TaskController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteTasking(@PathVariable Long id){
-
+    public ResponseEntity<?> deleteTask(@PathVariable Long id) {
+        try {
+            taskService.deleteTask(id);
+            return ResponseEntity.ok("Task deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
+// ------ START HERE ON MONDAY!!!!------
+//Changes the state to Archived.
     @PatchMapping("/archive/{id}")
-    public void archiveTask(@PathVariable Long id){
-
-
+    public ResponseEntity<?> archiveTask(@PathVariable Long id) {
+        try {
+            Task archivedTask = taskService.archiveTask(id);
+            return ResponseEntity.ok(archivedTask);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
