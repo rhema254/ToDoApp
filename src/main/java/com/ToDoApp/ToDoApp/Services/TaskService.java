@@ -123,5 +123,27 @@ public class TaskService {
 
         return taskRepository.save(task);
     }
+
+//    Not reaaally necessary, but why not?
+
+
+    // Get tasks by status
+    public List<Task> getTasksByStatus(Long userId, Status status) {
+        return taskRepository.findByUserIdAndStatus(userId, status);
+    }
+
+    // Get tasks due today
+    public List<Task> getTasksDueToday(Long userId) {
+        return taskRepository.findByUserIdAndDueDate(userId, LocalDate.now());
+    }
+
+    // Get overdue tasks
+    public List<Task> getOverdueTasks(Long userId) {
+        return taskRepository.findByUserIdAndDueDateBeforeAndStatusNot(
+                userId,
+                LocalDate.now(),
+                Status.COMPLETED
+        );
+    }
 }
 

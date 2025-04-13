@@ -1,5 +1,6 @@
 package com.ToDoApp.ToDoApp.Controllers;
 
+import com.ToDoApp.ToDoApp.Enums.Status;
 import com.ToDoApp.ToDoApp.Services.TaskService;
 import com.ToDoApp.ToDoApp.Services.UserService;
 import com.ToDoApp.ToDoApp.models.Task;
@@ -89,5 +90,27 @@ public class TaskController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
+
+//    Not reaally necessary but why not?
+
+    @GetMapping("/status/{userId}")
+    public ResponseEntity<List<Task>> getTasksByStatus(
+            @PathVariable Long userId,
+            @RequestParam Status status) {
+        List<Task> tasks = taskService.getTasksByStatus(userId, status);
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/{userId}/due-today")
+    public ResponseEntity<List<Task>> getTasksDueToday(@PathVariable Long userId) {
+        List<Task> tasks = taskService.getTasksDueToday(userId);
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/{userId}/overdue")
+    public ResponseEntity<List<Task>> getOverdueTasks(@PathVariable Long userId) {
+        List<Task> tasks = taskService.getOverdueTasks(userId);
+        return ResponseEntity.ok(tasks);
     }
 }
