@@ -1,5 +1,6 @@
 package com.ToDoApp.ToDoApp.models;
 import com.ToDoApp.ToDoApp.Enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import lombok.Data;
@@ -18,6 +19,7 @@ public class User {
     @Column(nullable = false, unique = true)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
